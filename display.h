@@ -3,6 +3,7 @@
 
 #include <LiquidCrystal.h>
 #include "runstat.h"
+#include "measurerpm.h"
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
@@ -21,10 +22,10 @@ class Display {
 private:
   LiquidCrystal aLcd;
   void backlight();
-  void showRPM(RunStat *runStat);
+  void showRPM();
 public:
   Display();
   void setup();
-  void loop(RunStat *runStat);
+  void loop();
 };
 #endif  // DISPLAY_H

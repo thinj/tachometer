@@ -66,15 +66,12 @@ byte abx[6][8] = {
   }
 };
 
-static const int vaffel = 2;
-
-
 Display::Display():aLcd(RS, EN, D4, D5, D6, D7) {
 }
 
 void Display::setup() {
   // initialize LCD and set up the number of columns and rows:
-  aLcd.begin(16, vaffel);
+  aLcd.begin(16, 2);
 
   for (int i = 0; i < 6; i++) {
     // create a new character
@@ -85,12 +82,10 @@ void Display::setup() {
   pinMode(_BACKLIGHT, OUTPUT);
 }
 
-int _rpm = 0;
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void Display::loop(RunStat *runStat) {
-  if (runStat->isSecond()) {
-    showRPM(runStat);
+void Display::loop() {
+  if (runStat.isSecond()) {
+    showRPM();
     backlight();
   }
 }
@@ -98,24 +93,22 @@ void Display::loop(RunStat *runStat) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void Display::backlight() {
   analogWrite(_BACKLIGHT, 255);
-  //analogWrite(_BACKLIGHT, 250);
-  //  digitalWrite(_BACKLIGHT, LOW);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void Display::showRPM(RunStat *runStat) {
+void Display::showRPM() {
   aLcd.setCursor(0, 0);
   char buffer[30];
-  sprintf(buffer, "RPM:%04d", _rpm);
+  sprintf(buffer, "RPM:%04d", measureRPM.getRPM());
   aLcd.print(buffer);
   // 100 RPM  / pixel
-  int len = _rpm / 100;
+  int len = measureRPM.getRPM() / 100;
   for (int i = 0; i < 8; i++) {
     byte b = len >= 5 ? 5 : len;
     aLcd.write((byte)b);
     len -= b;
   }
   aLcd.setCursor(0, 1);
-  int lc = runStat->getLoopCount() / 1000;
+  int lc = runStat.getLoopCount() / 1000;
   sprintf(buffer, "H1:%4d,H2:%3dk", buttons.get(), lc);
   aLcd.print(buffer);
 }

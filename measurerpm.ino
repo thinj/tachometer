@@ -11,14 +11,14 @@ void MeasureRPM::setup() {
   Serial.begin(115200);
 }
 
-void MeasureRPM::loop(RunStat *runStat) {
+void MeasureRPM::loop() {
   if (FreqMeasure.available()) {
     // average several reading together
     aSum += FreqMeasure.read();
     aCount++;
   }
 
-  if (runStat->isSecond()) {
+  if (runStat.isSecond()) {
     if (aCount > 0) {
       // Round and not trunc:
       aRPM = (int)(0.5 + 60 * FreqMeasure.countToFrequency(aSum / aCount));

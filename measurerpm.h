@@ -4,7 +4,7 @@ class MeasureRPM {
 public:
   MeasureRPM();
   void setup();
-  void loop(RunStat *runStat);
+  void loop();
   int getRPM();
 private:
   double aSum = 0;

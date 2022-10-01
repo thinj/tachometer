@@ -5,10 +5,10 @@
 #define UP_BUTTON 17
 #define DOWN_BUTTON 19
 
-Buttons::Buttons(){
+Buttons::Buttons() {
 }
 
-void Buttons::setup(){
+void Buttons::setup() {
   // Button setup:
   pinMode(COMMON_BUTTON, OUTPUT);
   digitalWrite(COMMON_BUTTON, LOW);
@@ -16,8 +16,8 @@ void Buttons::setup(){
   pinMode(DOWN_BUTTON, INPUT_PULLUP);
 }
 
-void Buttons::loop(){
-   // TODO
+void Buttons::loop() {
+  // TODO
 }
 
 int Buttons::get() {
